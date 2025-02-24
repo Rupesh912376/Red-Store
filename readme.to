@@ -1,0 +1,160 @@
+**Assignment 2 Answers (Expanded)**  
+
+---
+
+6. **Process of Creating and Deploying a Virtual Machine in Azure**  
+   - **Step 1: Access Azure Portal**  
+     Log into the Azure Portal and navigate to **Create a Resource > Virtual Machine**.  
+   - **Step 2: Configure Basics**  
+     - **Resource Group**: Create or select an existing group to organize resources.  
+     - **VM Name**: Assign a unique name.  
+     - **Region**: Choose a geographic region close to users for latency reduction.  
+     - **Image**: Select an OS (e.g., Windows Server 2022, Ubuntu 22.04 LTS).  
+     - **Size**: Pick VM size based on CPU, RAM, and GPU needs (e.g., B-series for burstable workloads, D-series for general-purpose).  
+   - **Step 3: Authentication**  
+     Choose between SSH keys (Linux) or username/password (Windows) for secure access.  
+   - **Step 4: Networking**  
+     - **Virtual Network (VNet)**: Create a VNet or use an existing one.  
+     - **Subnet**: Segment the network for security.  
+     - **Public IP**: Assign for external access (optional for private VMs).  
+     - **Network Security Group (NSG)**: Define inbound/outbound rules (e.g., allow HTTP/HTTPS traffic).  
+   - **Step 5: Disks**  
+     - **OS Disk**: Choose between HDD (cost-effective) or SSD (high performance).  
+     - **Data Disks**: Attach additional disks for storage.  
+   - **Step 6: Review and Deploy**  
+     Validate settings and deploy. Post-deployment, connect via RDP (Windows) or SSH (Linux) to configure applications.  
+   - **Alternate Methods**:  
+     - **Azure CLI**: Use commands like `az vm create` for automation.  
+     - **ARM Templates**: Infrastructure-as-Code (IaC) for repeatable deployments.  
+
+---
+
+7. **Azure Storage Types: Advantages and Use Cases**  
+   - **Blob Storage**  
+     - *Advantages*: Tiered storage (Hot, Cool, Archive), scalable to petabytes, cost-efficient for unstructured data.  
+     - *Use Cases*: Hosting static website assets, storing backups, or streaming video/audio content.  
+   - **File Storage**  
+     - *Advantages*: SMB/NFS protocol support, integrates with on-premises systems via Azure File Sync.  
+     - *Use Cases*: Migrating legacy apps to the cloud, shared storage for hybrid environments (e.g., departmental file shares).  
+   - **Queue Storage**  
+     - *Advantages*: Decouples components for fault tolerance, guarantees message delivery.  
+     - *Use Cases*: Order processing in e-commerce (e.g., place order → queue → payment service), task scheduling.  
+   - **Table Storage**  
+     - *Advantages*: Schema-less design, low-cost NoSQL storage with fast read/write operations.  
+     - *Use Cases*: Storing IoT device telemetry, user session data for web apps.  
+   - **Disk Storage**  
+     - *Advantages*: High IOPS for performance-sensitive workloads, supports Ultra Disk (sub-ms latency).  
+     - *Use Cases*: Running SQL databases, SAP HANA, or high-traffic web servers.  
+
+---
+
+8. **Serverless Computing and Azure Functions**  
+   - **Serverless Concept**:  
+     Developers write code without managing servers. The cloud provider dynamically allocates resources, scales automatically, and charges per execution. Key features:  
+     - **Event-Driven**: Triggers like HTTP requests, database changes, or timers.  
+     - **Stateless**: Short-lived executions (default timeout: 5 minutes).  
+     - **Micro-Billing**: Pay only for compute time (e.g., per 100 ms of execution).  
+   - **Azure Functions in Serverless Model**:  
+     - **Triggers**: Integrate with Azure services (e.g., Blob Storage triggers for file uploads, Event Grid for custom events).  
+     - **Bindings**: Simplify connections to databases or queues (e.g., output binding to Cosmos DB).  
+     - **Scaling**: Functions scale horizontally; 1,000 instances can spin up in seconds during traffic spikes.  
+     - **Use Case Example**: A retail app uses Functions to process order confirmations. When a new order is placed in a queue, a Function validates payment, updates inventory, and sends a confirmation email—all without provisioning VMs.  
+
+---
+
+9. **Azure SQL Database vs. Traditional SQL Server**  
+   - **Management**:  
+     - *Azure SQL*: Fully managed with automated backups, patching, and threat detection. Users focus on queries, not hardware.  
+     - *Traditional SQL*: Requires manual updates, backup scripts, and disaster recovery setups.  
+   - **Scalability**:  
+     - *Azure SQL*: Horizontal scaling via read replicas or elastic pools for multi-tenant apps.  
+     - *Traditional SQL*: Vertical scaling (upgrading server hardware), which can lead to downtime.  
+   - **Availability**:  
+     - *Azure SQL*: Built-in redundancy with 99.99% SLA, geo-replication for cross-region failover.  
+     - *Traditional SQL*: Needs Always On Availability Groups or clustering, which requires IT expertise.  
+   - **Cost**:  
+     - *Azure SQL*: Pay-as-you-go or reserved pricing; no upfront hardware costs.  
+     - *Traditional SQL*: High CapEx for servers and licenses.  
+
+---
+
+10. **Azure Functions Use Cases**  
+    - **Real-Time IoT Data Processing**:  
+      Functions ingest sensor data from Azure IoT Hub, process it (e.g., anomaly detection), and store results in Cosmos DB. Enables predictive maintenance in manufacturing.  
+    - **Scheduled Tasks**:  
+      Automate nightly database cleanup or report generation using timer triggers. Reduces manual operations.  
+    - **API Backends**:  
+      Build lightweight REST APIs for mobile apps. Functions handle authentication via Azure Active Directory and integrate with Azure API Management for rate limiting.  
+
+---
+
+**Assignment 1 Answers (Expanded)**  
+
+---
+
+2. **Public vs. Private vs. Hybrid Cloud Comparison**  
+   - **Scalability**:  
+     - *Public*: Instant scalability (e.g., AWS Auto Scaling adjusts resources during traffic spikes).  
+     - *Private*: Limited to on-premises hardware capacity; scaling requires purchasing servers.  
+     - *Hybrid*: Burst to public cloud during peak demand (e.g., a bank uses private cloud for transactions but public for customer analytics).  
+   - **Control**:  
+     - *Public*: Limited control over infrastructure (managed by CSP).  
+     - *Private*: Full control over hardware, network, and security policies.  
+     - *Hybrid*: Balance control (critical apps on-premises) with flexibility (public for non-sensitive workloads).  
+   - **Security**:  
+     - *Public*: Shared responsibility model (CSP secures infrastructure; user secures data/apps).  
+     - *Private*: Dedicated infrastructure reduces exposure to external threats.  
+     - *Hybrid*: Sensitive data stays private; less critical data uses public cloud.  
+
+---
+
+3. **Multi-Tenancy in Cloud Computing**  
+   - **Definition**: Multiple organizations (tenants) share the same physical infrastructure (servers, storage) but have logically isolated environments.  
+   - **Benefits**:  
+     - Cost efficiency (resources pooled across tenants).  
+     - Simplified maintenance (updates applied centrally by CSP).  
+   - **Risks**:  
+     - "Noisy neighbor" effect (one tenant’s workload impacts others).  
+     - Potential data leakage if isolation fails.  
+   - **Mitigation**:  
+     - Hypervisors (e.g., VMware) ensure VM isolation.  
+     - Encryption for data-at-rest and in-transit.  
+
+---
+
+7. **Public Cloud Model: Details**  
+   - **Key Characteristics**:  
+     - **On-Demand Self-Service**: Users provision resources via a portal/API without human intervention.  
+     - **Resource Pooling**: CSPs serve multiple customers from shared infrastructure.  
+     - **Rapid Elasticity**: Scale resources up/down in minutes.  
+   - **Benefits**:  
+     - **Cost Savings**: No upfront hardware costs; pay only for usage.  
+     - **Global Reach**: Deploy apps in regions worldwide (e.g., Azure has 60+ regions).  
+   - **Drawbacks**:  
+     - **Compliance Challenges**: Data residency laws (e.g., GDPR) may restrict cross-border storage.  
+     - **Latency**: Physical distance from CSP data centers can affect performance.  
+
+---
+
+9. **Cloud Bursting in Hybrid Environments**  
+   - **Definition**: Temporarily offload workloads to the public cloud when private resources are exhausted.  
+   - **Example**: A healthcare app normally runs on-premises but uses Azure during flu season to handle patient record spikes.  
+   - **Relevance**:  
+     - **Cost Optimization**: Avoid over-provisioning private infrastructure.  
+     - **Flexibility**: Handle unpredictable demand without service degradation.  
+   - **Challenges**:  
+     - **Data Transfer Costs**: Moving large datasets to the cloud can be expensive.  
+     - **Compatibility**: Apps must be architected for hybrid deployment (e.g., using Kubernetes clusters across clouds).  
+
+---
+
+10. **Interoperability, Portability, and Hybrid Cloud**  
+    - **Interoperability**:  
+      Ensures systems work together seamlessly (e.g., APIs enabling a SaaS app to integrate with on-prem ERP). Standards like REST APIs and JSON facilitate this.  
+    - **Portability**:  
+      Avoids vendor lock-in. Tools like Docker containers allow apps to run on any cloud (AWS, Azure, GCP).  
+    - **Hybrid Cloud**:  
+      Combines public cloud scalability with private cloud security. Example: A government agency stores classified data on-prem but uses Azure for citizen-facing portals.  
+
+---  
+Answers now include expanded explanations, real-world examples, and technical depth while maintaining clarity.
